@@ -12,10 +12,24 @@
 #include <stdio.h>
 #include "ImageNode.h"
 
+/*!
+ *   Represents processing of the FX/Bacground audio volume.
+ */
 class SettingsScene : public cocos2d::Layer
 {
-private:
+public:
+    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    static cocos2d::Scene* createScene();
     
+    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    virtual bool init();
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(SettingsScene);
+    
+    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+    
+private:
     cocos2d::Label *_backLabel;
     cocos2d::Label *_musVolplusLabel;
     cocos2d::Label *_musVolMinusLabel;
@@ -32,18 +46,6 @@ private:
     void setLabelValues();
     void IncVol(const int type, const int inc);
     
-public:
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
-    
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(SettingsScene);
-    
-    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
-        
 };
 
 #endif /* SettingsScene_hpp */

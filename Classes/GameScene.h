@@ -13,6 +13,9 @@ class Player;
 class Cloud;
 class Tube;
 
+/*!
+ *   Represents the InAction Phase.
+ */
 class GameScene : public Scene
 {
 public:
@@ -20,10 +23,11 @@ public:
 
     virtual bool init();
     
-    // implement the "static create()" method manually
+    /**
+     * Implement the "static create()" method manually.
+     */
     CREATE_FUNC(GameScene);
     
-    // a selector callback
     void menuCloseCallback(Ref* pSender);
     void menuSettingsCallback(Ref* pSender);
 
@@ -69,30 +73,46 @@ private:
     
     void addCloud(const float speed, const Vec2 position, const float scale, const int zIndex, std::string fileName);
     
-    // The method runs clouds animation & set barriers in inActiveX position
+    /**
+     * Runs clouds animation & set barriers in inActiveX position.
+     */
     void startClouds();
     
-    // The method stops animatons for clouds & barriers
+    /**
+     * Stops animatons for clouds & barriers.
+     */
     void stopClouds();
     
     void createClouds();
     
-    // The method sets spawn time for barriers
+    /**
+     * Sets spawn time for barriers.
+     */
     void setSpawnTime();
     
-    // The method sets type of barriers
+    /**
+     * Sets type of barriers.
+     */
     void spawnNewBarriers();
     
-    // The method sets barriers Y pos
+    /**
+     * Sets barriers Y pos.
+     */
     void spawnUpperOrLower(bool isUpper);
     
-    // The method calculates gap between pair barriers
+    /**
+     * Calculates gap between pair barriers.
+     */
     void spawnBarrierPair();
     
-    // The method flipes the barriers, set Ypos & call to method barrier->start()
+    /**
+     * Flipes the barriers, set Ypos & call to method barrier->start().
+     */
     Barrier* spawnABarrier(bool isUpper, float Ypos);
     
-    // The method creates & returns new barrier or returns barrier from list with inActive state
+    /**
+     * Creates & returns new barrier or returns barrier from list with inActive state.
+     */
     Barrier *getNextBarrier();
     
     bool _acceptTouches;

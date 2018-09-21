@@ -20,6 +20,9 @@ enum ImageNodeContentMode {
 	kContentAspectFill // all initial size fill with image (without borders)
 };
 
+/*!
+ *   Represents images processing.
+ */
 class ImageNode : public cocos2d::Node
 {
 private:
@@ -27,13 +30,14 @@ private:
 	ImageNode(void);	
     ImageNode(const std::string imageName, cocos2d::Size size, ImageNodeContentMode contentMode = kContentScaleToFit);
 	
-		
 public:
 	virtual ~ImageNode();
 	
 	static ImageNode * create (const std::string imageName, cocos2d::Size size, ImageNodeContentMode contentMode);
 
-	// scale methods
+    /**
+     * Scale methods.
+     */
 	static Vec2 getScaleToFitScale (cocos2d::Size &originSize, cocos2d::Size &fitSize);
 	static float getAspectFitScale (cocos2d::Size &originSize, cocos2d::Size &fitSize);
 	static float getAspectFillScale (cocos2d::Size &originSize, cocos2d::Size &fillSize);

@@ -11,12 +11,20 @@
 
 #include <stdio.h>
 
+/*!
+ *   Represents as Singleton Pattern and handling of various targets:
+ *   - handling of scenes (transition to desired scene)
+ *   - handling of audio:
+ *          - background/FX music
+ *          - get/set Vol
+ *          - saving settings
+ *   - handling of scaling factor
+ */
+
 class GameManager{
     
 public:
     static GameManager* Instance();
-    
-    void LateInit();
     
     float GetScaleX();
     float GetScaleY();
@@ -26,9 +34,16 @@ public:
     
     void GetFileName(char *array, const int len, const char *name, const char *fileExt);
     
+    /**
+     * Preloads and init FX/Background music.
+     */
     void lateInit();
+    
     void playEffect(const int effectNum);
     
+    /**
+     * Represents transition to desired scene.
+     */
     void runScene(const int sceneNum);
     
     int getVol(const int volType);
@@ -47,8 +62,7 @@ private:
     GameManager(GameManager const&){};
     GameManager& operator=(GameManager const&){};
     
-    void preloadEffect(const char* name, const int num);
-    void playEffectName(const char* name, const int num);
+    ~GameManager(){};
     
     static GameManager* _pInstance;
     
@@ -61,7 +75,8 @@ private:
     int _effectsVol;
     int _highScore;
     
-    ~GameManager(){};
+    void preloadEffect(const char* name, const int num);
+    void playEffectName(const char* name, const int num);
 };
 
 #define GETSCALEX ( GameManager::Instance()->GetScaleX())

@@ -64,12 +64,12 @@ bool SplashScene::init()
     theLabel->setColor(Color3B::RED);
     this->addChild(theLabel, kZindexPlayer);
     
-    Player *rocketMan = Player::createWithFileName("models/dragon/Dragon.c3t");
-    rocketMan->setRotation3D(Vec3(0, 90, 0));
-    rocketMan->runWalkAnimation();
+    Player *dragon = Player::createWithFileName("models/dragon/Dragon.c3t");
+    dragon->setRotation3D(Vec3(0, 90, 0));
+    dragon->runWalkAnimation();
     
-    rocketMan->setPosition(Vec2(visibleSize.width/2, 100));
-    addChild(rocketMan, 100);
+    dragon->setPosition(Vec2(visibleSize.width/2, 100));
+    addChild(dragon, 100);
     
     this->scheduleOnce(schedule_selector(SplashScene::RunGameScreen), 2.5f);
     

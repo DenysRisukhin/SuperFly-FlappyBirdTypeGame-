@@ -5,14 +5,12 @@
 
 USING_NS_CC;
 
-Scene* GameScene::createScene()
-{
+Scene* GameScene::createScene() {
     return GameScene::create();
 }
 
 // on "init" you need to initialize your instance
-bool GameScene::init()
-{
+bool GameScene::init() {
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -82,7 +80,7 @@ bool GameScene::init()
 
 #pragma mark - Init EventListeners & Labels
 
-void GameScene::initListeners(){
+void GameScene::initListeners() {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
@@ -100,7 +98,7 @@ void GameScene::initListeners(){
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
 }
 
-void GameScene::initLabels(){
+void GameScene::initLabels() {
     
     const float labelFontSize = 24 * GETSCALEY * GETSCALEFAC;
     //const float scorePositionX = 42 * GETSCALEY * GETSCALEFAC;
@@ -144,7 +142,7 @@ Label* GameScene::addLabel(const float fontSize, const char *text, const Vec2 an
 
 #pragma mark - Game logic
 
-void GameScene::startGame(){
+void GameScene::startGame() {
     _startLabel->setVisible(false);
     menu->setVisible(false);
     
@@ -159,7 +157,7 @@ void GameScene::startGame(){
     _floorSprite.at(1)->runAction(RepeatForever::create(actionMove));
 }
 
-void GameScene::gameOver(){
+void GameScene::gameOver() {
     
     GameManager::Instance()->playEffect(kEffectExplosion);
     
@@ -174,7 +172,7 @@ void GameScene::gameOver(){
     _scoreLabel->setPosition( Vec2(visibleSize.width/2, visibleSize.height / 3.5));
 }
 
-void GameScene::stopGame(){
+void GameScene::stopGame() {
     _nextSpawnTime = 0.2;
     stopClouds();
     
@@ -184,7 +182,7 @@ void GameScene::stopGame(){
     scheduleOnce(schedule_selector(GameScene::resetEnableAfterGameOver), 2.5f);
 }
 
-void GameScene::resetEnableAfterGameOver(float dt){
+void GameScene::resetEnableAfterGameOver(float dt) {
     _gameScore = 0;
     updateScoreLabel();
     updateHighScoreLabel();
@@ -193,9 +191,8 @@ void GameScene::resetEnableAfterGameOver(float dt){
     _acceptTouches = true;
     _player->setPositionY(_middleY);
     
-    for(auto tube: this->_barriers){
+    for(auto tube: this->_barriers)
         tube->stop();
-    }
     
     _player->runIdelAnimation();
     _highScoreLabel->setVisible(false);
@@ -208,19 +205,19 @@ void GameScene::resetEnableAfterGameOver(float dt){
 
 #pragma mark - Update Events
 
-void GameScene::updateScoreLabel(){
+void GameScene::updateScoreLabel() {
     char ScoreString[64];
     sprintf(ScoreString, "Point %d", _gameScore);
     _scoreLabel->setString(ScoreString);
 }
 
-void GameScene::updateHighScoreLabel(){
+void GameScene::updateHighScoreLabel() {
     char ScoreString[64];
     sprintf(ScoreString, "Best %d", GameManager::Instance()->GetHighScore());
     _highScoreLabel->setString(ScoreString);
 }
 
-void GameScene::gameUpdate(float dt){
+void GameScene::gameUpdate(float dt) {
     //log("HelloWorld::gameUpdate dt:%f", dt);
     if (_gameOver == false) {
         _gameTime += dt;
@@ -289,27 +286,23 @@ void GameScene::gameUpdate(float dt){
 
 #pragma mark - Clouds Logic
 
-void GameScene::startClouds(){
-    for(auto cloud: this->_clouds){
+void GameScene::startClouds() {
+    for(auto cloud: this->_clouds)
         cloud->start();
-    }
     
-    for(auto tube: this->_barriers){
+    for(auto tube: this->_barriers)
         tube->stop();
-    }
 }
 
-void GameScene::stopClouds(){
-    for(auto cloud: this->_clouds){
+void GameScene::stopClouds() {
+    for(auto cloud: this->_clouds)
         cloud->stop();
-    }
     
-    for(auto tube: this->_barriers){
+    for(auto tube: this->_barriers)
         tube->stopAllActions();
-    }
 }
 
-void GameScene::createClouds(){
+void GameScene::createClouds() {
     _clouds = Vector<Cloud*>{30};
    
     addCloud(kCloudSpeedSlow, SCALEPOS(700, 610), 0.5, kZindexCloudSlow, "cloud.png");
@@ -321,12 +314,11 @@ void GameScene::createClouds(){
     addCloud(kCloudSpeedFast, Vec2(400, 500), 0.5, kZindexMount, "cloud.png");
     addCloud(kCloudSpeedFast, Vec2(880, 400), 0.5, kZindexMount, "cloud.png");
     
-    
     addCloud(kMountSpeed, Vec2(300, 170), 4, kZindexMount, "mountain1.png");
     addCloud(kMountSpeed, Vec2(900, 170), 4, kZindexMount, "mountain2.png");
 }
 
-void GameScene::addCloud(const float speed, const Vec2 position, const float scale, const int zIndex, std::string fileName){
+void GameScene::addCloud(const float speed, const Vec2 position, const float scale, const int zIndex, std::string fileName) {
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Cloud *cloud = Cloud::createWithFileName(fileName);
@@ -341,7 +333,7 @@ void GameScene::addCloud(const float speed, const Vec2 position, const float sca
 
 #pragma mark - Barriers Logic
 
-void  GameScene::setSpawnTime(){
+void  GameScene::setSpawnTime() {
     _lastSpawnTime = 0;
     _nextSpawnTime = (float)(rand() % kBarrierSpawnTimeVariance / 10 + kBarrierSpawnMinTime);
     _nextSpawnTime -= _nextSpawnTimeDecrement;
@@ -349,7 +341,7 @@ void  GameScene::setSpawnTime(){
     log("_nextSpawnTime = %f", _nextSpawnTime);
 }
 
-void  GameScene::spawnNewBarriers(){
+void  GameScene::spawnNewBarriers() {
     int ourChance = rand() % 3 + 1;
     
     while(1){
@@ -374,7 +366,7 @@ void  GameScene::spawnNewBarriers(){
 }
 
 // установка туба ниже или выше по Y ???????
-void  GameScene::spawnUpperOrLower(bool isUpper){
+void  GameScene::spawnUpperOrLower(bool isUpper) {
     _lastBarrierType = isUpper == true ? kBarrierTypeUpper : kBarrierTypeLower;
     
     int YMax = isUpper == true ? _middleY : kSingleGapTop;
@@ -399,7 +391,7 @@ void  GameScene::spawnUpperOrLower(bool isUpper){
 }
 
 
-void GameScene::spawnBarrierPair(){
+void GameScene::spawnBarrierPair() {
     _lastBarrierType = kBarrierTypePair;
     
     int Gap = kDoubleGapMin + (rand() % (int)(kDoubleGapMax - kDoubleGapMin)); // разрыв
@@ -412,7 +404,7 @@ void GameScene::spawnBarrierPair(){
     spawnABarrier(true, TopY)->setPair(spawnABarrier(false, BottomY));
 }
 
-Barrier* GameScene::spawnABarrier(bool isUpper, float Ypos){
+Barrier* GameScene::spawnABarrier(bool isUpper, float Ypos) {
     Barrier *barrier = getNextBarrier();
     
     if(isUpper){
@@ -432,7 +424,7 @@ Barrier* GameScene::spawnABarrier(bool isUpper, float Ypos){
 }
 
 
-Barrier* GameScene::getNextBarrier(){
+Barrier* GameScene::getNextBarrier() {
     
     for(auto barrier: _barriers){
         if(barrier->state == kBarrierStateInActive){
@@ -454,12 +446,11 @@ Barrier* GameScene::getNextBarrier(){
 
 #pragma mark - Touch/Key/Mouse Events
 
-bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
+bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     //log("x:%f y:%f", touch->getLocation().x, touch->getLocation().y);
     
-    if (!_acceptTouches) {
+    if (!_acceptTouches)
         return false;
-    }
     
     GameManager::Instance()->playEffect(kEffectFly);
     
@@ -473,7 +464,7 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     return true;
 }
 
-void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event){
+void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) {
     if( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE ){
         
         if (_acceptTouches) {
@@ -489,9 +480,8 @@ void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
         }
     }
     
-    if( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE ){
+    if( keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE )
         menuCloseCallback(NULL);
-    }
 }
 
 void GameScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event){
@@ -500,7 +490,7 @@ void GameScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     }
 }
 
-void GameScene::onMouseDown(cocos2d::Event *event){
+void GameScene::onMouseDown(cocos2d::Event *event) {
     
     if (_acceptTouches) {
         
@@ -512,13 +502,13 @@ void GameScene::onMouseDown(cocos2d::Event *event){
             _player->runFlyAnimation();
             _player->setStartSpeed();
         }
-    }}
+    }
+}
 
-void GameScene::onMouseUp(cocos2d::Event *event){
+void GameScene::onMouseUp(cocos2d::Event *event) {
     
 }
 
-////////
 void GameScene::menuCloseCallback(Ref* pSender)
 {
     Director::getInstance()->end();

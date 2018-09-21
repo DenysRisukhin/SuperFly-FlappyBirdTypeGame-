@@ -12,7 +12,7 @@
 
 USING_NS_CC;
 
-Player* Player::createWithFileName(std::string fileName){
+Player* Player::createWithFileName(std::string fileName) {
     auto sprite = new Player;
     if (sprite && sprite->initWithFile(fileName)) {
         sprite->autorelease();
@@ -22,7 +22,7 @@ Player* Player::createWithFileName(std::string fileName){
     return nullptr;
 }
 
-void Player::update(float dt){
+void Player::update(float dt) {
     if (state == kPlayerStateMoving) {
         
         // s = ut + 0.5 * a * t * t
@@ -44,21 +44,21 @@ void Player::update(float dt){
     }
 }
 
-void Player::reset(){
+void Player::reset() {
     state = kPlayerStateStopped;
     setStartSpeed();
 }
 
-void Player::setStartSpeed(){
+void Player::setStartSpeed() {
     _speedY = kPlayerStartSpeedY;
     
 }
 
-void Player::setTopOfTheScreen(const float tos){
+void Player::setTopOfTheScreen(const float tos) {
     _topOfScreen = tos;
 }
 
-cocos2d::Rect Player::TubeCollisionBox(){
+cocos2d::Rect Player::TubeCollisionBox() {
 //    return Rect(
 //    this->getBoundingBox().origin.x + SCALEY(25) * GETSCALEFAC,
 //    this->getBoundingBox().origin.y + SCALEY(5) * GETSCALEFAC,
@@ -73,15 +73,13 @@ cocos2d::Rect Player::TubeCollisionBox(){
 //                this->getBoundingBox().size.height - 15
 //                );
     
-    // return An AABB (axis-aligned bounding-box) in its parent's coordinate system
     return this->getBoundingBox();
 }
 
-void Player::runFlyAnimation(){
+void Player::runFlyAnimation() {
     auto animation = Animation3D::create("models/dragon/Dragon.c3t", "Fly_New");
     
-    if (animation)
-    {
+    if (animation) {
         this->stopAllActions();
         
         auto animate = Animate3D::create(animation);
@@ -91,11 +89,10 @@ void Player::runFlyAnimation(){
     }
 }
 
-void Player::runWalkAnimation(){
+void Player::runWalkAnimation() {
     auto animation = Animation3D::create("models/dragon/Dragon.c3t", "Walk_New");
     
-    if (animation)
-    {
+    if (animation) {
         auto animate = Animate3D::create(animation);
         animate->setSpeed(2.5);
         
@@ -104,11 +101,10 @@ void Player::runWalkAnimation(){
 }
 
 
-void Player::runIdelAnimation(){
+void Player::runIdelAnimation() {
     auto animation = Animation3D::create("models/dragon/Dragon.c3t", "Idel_New");
     
-    if (animation)
-    {
+    if (animation) {
         auto animate = Animate3D::create(animation);
         animate->setSpeed(2.5);
         
@@ -117,11 +113,10 @@ void Player::runIdelAnimation(){
 }
 
 
-void Player::runDefaultAnimation(){
+void Player::runDefaultAnimation() {
     auto animation = Animation3D::create("models/dragon/Dragon.c3t", "Default Take");
     
-    if (animation)
-    {
+    if (animation) {
         auto animate = Animate3D::create(animation);
         animate->setSpeed(2.5);
         

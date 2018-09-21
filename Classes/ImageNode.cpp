@@ -10,8 +10,7 @@
 
 USING_NS_CC;
 
-ImageNode * ImageNode::create (const std::string imageName, Size size, ImageNodeContentMode contentMode)
-{
+ImageNode * ImageNode::create (const std::string imageName, Size size, ImageNodeContentMode contentMode) {
 	ImageNode *node = new ImageNode(imageName,size,contentMode);
 	
 	if (node) {

@@ -12,6 +12,14 @@
 #include <stdio.h>
 #include "cocos2d.h"
 
+/*!
+ *   Represents obstacles. Uses 4 types of obstacles:
+ *   1. kTubeTypePair
+ *   2. kTubeTypeUpper
+ *   3. kTubeTypeLower
+ *   4. kTubeTypeNone
+ */
+
 class Barrier: public cocos2d::Sprite{
 public:
     
@@ -21,26 +29,45 @@ public:
     
     static Barrier* createWithFileName(std::string fileName);
     
-    
-    // The method runs animation & calculates distance, time, destination, sets barrier to aactive state
-    void start();
-    
-    // The method sets barrier to inActive state, sets inActiveX pos & scored value
-    void stop();
-    
+    /**
+     * Init data:
+     * @param _speed
+     * @param _screenWidth
+     * @param _xOffSet
+     * @param state
+     * @param scored
+     */
     void Initialise(const float speed, const float width);
     
-    // The method sets pair barrier type. Usefully for corrects score increment in update method
+    /**
+     * Runs animation & calculates distance, time, destination, sets barrier to aactive state.
+     */
+    void start();
+    
+    /**
+     * Sets barrier to inActive state, sets inActiveX pos & scored value.
+     */
+    void stop();
+    
+    /**
+     * Sets pair barrier type. Usefully for corrects score increment in update method.
+     */
     void setPair(Barrier* tb);
     
-    // The method changes current move speed
+    /**
+     * Changes current move speed.
+     */
     void changeSpeed(float speed);
     
-    // kTubeStateActive 0
-    // kTubeStateInActive 1
+    /**
+     * kTubeStateActive 0
+     * kTubeStateInActive 1
+     */
     int state;
     
-    // Score state
+    /**
+     * State of score.
+     */
     bool scored;
     
     Barrier *pairBarrier;
@@ -48,6 +75,9 @@ public:
 private:
     
     // The method calls to method stop(), after current barrier reached his destination (достиг конечной позиции)
+    /**
+     * Sets barrier to inActive state, sets inActiveX pos & scored value.
+     */
     void reachedDestination();
     
     float _speed;
